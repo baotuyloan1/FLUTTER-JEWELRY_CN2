@@ -83,25 +83,45 @@ class _ReviewsState extends State<Reviews> {
                             ),
                           ],
                         ),
-                        Row(
-                          children: [
-                            Text(
-                              "1",
-                              style: TextStyle(
-                                  fontSize: getProportionateScreenWidth(16.0)),
-                            ),
-                            SizedBox(
-                              width: getProportionateScreenHeight(4.0),
-                            ),
-                            const Icon(
-                              Icons.star,
-                              color: kPrimaryColor,
-                            ),
-                            LinearPercentIndicator(
-                              percent: 0.5,
-                              width: MediaQuery.of(context).size.width / 2,
-                            )
-                          ],
+                        SizedBox(
+                          width: getProportionateScreenHeight(200.0),
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: 4,
+                            itemBuilder: (context, index) {
+                              return Row(
+                                children: [
+                                  Text(
+                                    "1",
+                                    style: TextStyle(
+                                        fontSize:
+                                            getProportionateScreenWidth(16.0)),
+                                  ),
+                                  SizedBox(
+                                    width: getProportionateScreenHeight(4.0),
+                                  ),
+                                  const Icon(
+                                    Icons.star,
+                                    color: kPrimaryColor,
+                                  ),
+                                  SizedBox(
+                                    width: getProportionateScreenHeight(8.0),
+                                  ),
+                                  LinearPercentIndicator(
+                                    percent: 0.5,
+                                    barRadius: const Radius.circular(16),
+                                    lineHeight:
+                                        getProportionateScreenHeight(6.0),
+                                    width:
+                                        MediaQuery.of(context).size.width / 2.8,
+                                    animation: true,
+                                    animationDuration: 2500,
+                                    progressColor: kPrimaryColor,
+                                  )
+                                ],
+                              );
+                            },
+                          ),
                         ),
                       ],
                     ),

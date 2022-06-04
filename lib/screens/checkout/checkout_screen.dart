@@ -63,7 +63,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final customerId =
           Provider.of<InitProvider>(context, listen: false).accountModel.id;
       _futureBillings = showBillings(customerId.toString());
