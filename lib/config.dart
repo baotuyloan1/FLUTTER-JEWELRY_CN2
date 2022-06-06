@@ -28,6 +28,6 @@ const postPaymentUrl = baseUrlApi + 'postpayment.php';
 const postOrderUrl = baseUrlApi + 'postorder.php';
 const postOrderDetaillUrl = baseUrlApi + 'postorderdetail.php';
 const postSignUpUrl = baseUrlApi + 'postsignup.php';
-
+const postReviewUrl = baseUrlApi + 'postRating.php';
 //delete
 const deleteBillingUrl = baseUrlApi + 'deleteDeliveryAddress.php';

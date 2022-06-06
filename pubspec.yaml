@@ -47,6 +47,7 @@ dependencies:
   cached_network_image: ^3.2.0
   percent_indicator: ^4.2.2
   smooth_star_rating_null_safety: ^1.0.4+2
+  rating_dialog: ^2.0.4
 
 
 

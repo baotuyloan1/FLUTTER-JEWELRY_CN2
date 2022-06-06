@@ -19,6 +19,12 @@ class Reviews extends StatefulWidget {
 class _ReviewsState extends State<Reviews> {
   Future<List<RatingModel>>? _futureRatings;
   bool isMore = false;
+  int countRating1 = 0;
+  int countRating2 = 0;
+  int countRating3 = 0;
+  int countRating4 = 0;
+  int countRating5 = 0;
+  List<double> ratingPercentList = [];
   @override
   void initState() {
     // TODO: implement initState
@@ -38,7 +44,37 @@ class _ReviewsState extends State<Reviews> {
               int ratingTotal = 0;
               for (var rating in snapshot.data!) {
                 ratingTotal += rating.rating!;
+                if (rating.rating! == 1) {
+                  countRating1++;
+                }
+                if (rating.rating! == 2) {
+                  countRating2++;
+                }
+                if (rating.rating! == 3) {
+                  countRating3++;
+                }
+                if (rating.rating! == 4) {
+                  countRating4++;
+                }
+                if (rating.rating! == 5) {
+                  countRating5++;
+                }
               }
+              int totalCount = (countRating1 +
+                  countRating2 +
+                  countRating3 +
+                  countRating4 +
+                  countRating5);
+              double percentRating1 = countRating1 / totalCount;
+              double percentRating2 = countRating2 / totalCount;
+              double percentRating3 = countRating3 / totalCount;
+              double percentRating4 = countRating4 / totalCount;
+              double percentRating5 = countRating5 / totalCount;
+              ratingPercentList.add(percentRating1);
+              ratingPercentList.add(percentRating2);
+              ratingPercentList.add(percentRating3);
+              ratingPercentList.add(percentRating4);
+              ratingPercentList.add(percentRating5);
               double ratingMean = ratingTotal / snapshot.data!.length;
               String ratingMeann =
                   double.parse(ratingMean.toString()).toStringAsFixed(1);
@@ -84,15 +120,15 @@ class _ReviewsState extends State<Reviews> {
                           ],
                         ),
                         SizedBox(
-                          width: getProportionateScreenHeight(200.0),
+                          width: MediaQuery.of(context).size.width * 0.5,
                           child: ListView.builder(
                             shrinkWrap: true,
-                            itemCount: 4,
+                            itemCount: 5,
                             itemBuilder: (context, index) {
                               return Row(
                                 children: [
                                   Text(
-                                    "1",
+                                    (++index).toString(),
                                     style: TextStyle(
                                         fontSize:
                                             getProportionateScreenWidth(16.0)),
@@ -108,7 +144,7 @@ class _ReviewsState extends State<Reviews> {
                                     width: getProportionateScreenHeight(8.0),
                                   ),
                                   LinearPercentIndicator(
-                                    percent: 0.5,
+                                    percent: ratingPercentList[--index],
                                     barRadius: const Radius.circular(16),
                                     lineHeight:
                                         getProportionateScreenHeight(6.0),
@@ -137,7 +173,7 @@ class _ReviewsState extends State<Reviews> {
                         return ReviewUI(
                             image: snapshot.data![index].customerImage!,
                             name: snapshot.data![index].customerName!,
-                            comment: snapshot.data![index].comment!,
+                            comment: snapshot.data![index].comment ?? "",
                             date: snapshot.data![index].updatedAt!,
                             rating: snapshot.data![index].rating!.toDouble(),
                             onTap: () {

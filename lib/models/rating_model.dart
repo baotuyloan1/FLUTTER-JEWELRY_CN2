@@ -17,8 +17,14 @@ class RatingModel {
     productId = json["product_id"];
     customerId = json["customer_id"];
     customerName = json["customer_name"];
+    // if (json["customer_img"].toString().isEmpty) {
+    //   json["customer_img"] = "";
+    // }
     customerImage = json["customer_img"];
     rating = json["rating"];
+    // if (json["comments"].toString().isEmpty) {
+    //   json["comments"] = "";
+    // }
     comment = json["comments"];
     status = json["status"];
     createdAt = json["created_at"];
