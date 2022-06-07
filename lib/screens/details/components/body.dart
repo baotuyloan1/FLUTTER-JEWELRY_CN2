@@ -43,6 +43,18 @@ class _BodyState extends State<Body> {
 
     customer = Provider.of<InitProvider>(context, listen: false).accountModel;
     // ratingsList = await showRatings(widget.productModel.productId.toString());
+    getRatingData();
+  }
+
+  void getRatingData() async {
+    ratingsList = await showRatings(widget.productModel.productId.toString());
+    for (var rating in ratingsList!) {
+      if (customer!.id == rating.customerId) {
+        setState(() {
+          isRated = true;
+        });
+      }
+    }
   }
 
   @override
@@ -140,14 +152,19 @@ class _BodyState extends State<Body> {
                                 ? const Text("Review")
                                 : GestureDetector(
                                     onTap: () => showRatingDialog(),
-                                    child: const Text("Rating this product"),
+                                    child: const Text(
+                                      "Rating this product",
+                                      style: TextStyle(color: kPrimaryColor),
+                                    ),
                                   ),
                             const Spacer(),
                             GestureDetector(
-                              onTap: () => Navigator.pushNamed(
-                                  context, Reviews.routeName, arguments: {
-                                'productId': widget.productModel.productId
-                              }),
+                              onTap: () async {
+                                final result = await Navigator.pushNamed(
+                                    context, Reviews.routeName, arguments: {
+                                  'productId': widget.productModel.productId
+                                }).then((value) => refresh());
+                              },
                               child: const Text("View all"),
                             )
                           ],
@@ -172,6 +189,9 @@ class _BodyState extends State<Body> {
                       itemCount: 3,
                       itemBuilder: (context, index) {
                         return ReviewUI(
+                            parentFunction: refresh,
+                            customerId: snapshot.data![index].customerId!,
+                            ratingId: snapshot.data![index].ratingId!,
                             image: snapshot.data![index].customerImage!,
                             name: snapshot.data![index].customerName!,
                             comment: snapshot.data![index].comment!,
@@ -223,7 +243,7 @@ class _BodyState extends State<Body> {
               // ),
               submitButtonText: "Submit",
               onSubmitted: (response) async {
-                int status = await PostReview().postReview(
+                int status = await JSONReview().postReview(
                     productId: widget.productModel.productId.toString(),
                     customerId: customer!.id.toString(),
                     rating: response.rating.toString(),
@@ -232,6 +252,7 @@ class _BodyState extends State<Body> {
                   setState(() {
                     _futureRatings =
                         showRatings(widget.productModel.productId.toString());
+                    getRatingData();
                   });
                 } else {
                   showToast1(
@@ -241,5 +262,11 @@ class _BodyState extends State<Body> {
                 }
               });
         });
+  }
+
+  refresh() {
+    setState(() {
+      _futureRatings = showRatings(widget.productModel.productId.toString());
+    });
   }
 }

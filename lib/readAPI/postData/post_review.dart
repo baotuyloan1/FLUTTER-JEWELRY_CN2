@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
-class PostReview {
+class JSONReview {
   Future<int> postReview({
     required String productId,
     required String customerId,
@@ -17,6 +17,18 @@ class PostReview {
       "customer_id": customerId,
       "rating": rating,
       "comments": comment
+    });
+    return json.decode(response.body);
+  }
+
+  Future<int> editReview(
+      {required String reviewId,
+      required double rating,
+      required String comments}) async {
+    final response = await http.post(Uri.parse(postEditReviewUrl), body: {
+      "ratingId": reviewId,
+      "rating": rating.toString(),
+      "comments": comments
     });
     return json.decode(response.body);
   }

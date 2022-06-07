@@ -171,6 +171,9 @@ class _ReviewsState extends State<Reviews> {
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, index) {
                         return ReviewUI(
+                            parentFunction: refresh,
+                            customerId: snapshot.data![index].customerId!,
+                            ratingId: snapshot.data![index].ratingId!,
                             image: snapshot.data![index].customerImage!,
                             name: snapshot.data![index].customerName!,
                             comment: snapshot.data![index].comment ?? "",
@@ -208,5 +211,11 @@ class _ReviewsState extends State<Reviews> {
         },
       ),
     );
+  }
+
+  refresh() {
+    setState(() {
+      _futureRatings = showRatings(widget.args!["productId"].toString());
+    });
   }
 }
